@@ -1,0 +1,8 @@
+ neighbor <%TARGET_IPv6%> remote-as <%AS_NUMBER%>
+ neighbor <%TARGET_IPv6%> shutdown
+ neighbor <%TARGET_IPv6%> maximum-prefix <%IPv6_PREFIX%>
+ neighbor <%TARGET_IPv6%> route-map in <%AS-NAME%>-EBGP-IN
+ neighbor <%TARGET_IPv6%> route-map out <%IX-LAN-PREFIX%>-v6-OUT
+ neighbor <%TARGET_IPv6%> soft-reconfiguration inbound
+ neighbor <%TARGET_IPv6%> activate
+ no neighbor <%TARGET_IPv6%> shutdown
