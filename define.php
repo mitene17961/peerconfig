@@ -1,5 +1,5 @@
 <?php
-	// flow系のCSVファイルの絶対パス
+	// nfdump出力のCSVファイルの絶対パス
 	define( "FLOW_CSV_FILE_PATH"	, "" );
 
 	// BGPコンフィグにおけるデフォルトのPrefixの値
