@@ -1,16 +1,3 @@
-#%AS-NAME%のデフォルトは該当ASのPeeringDBにあるIRR Recordから情報を取得。変更が可能。
-#%AS_NUMBER%は該当ASのPeeringDBにあるPrimary ASNから情報を取得
-#%TARGET_IPv4%は該当ASのPeeringDBにある該当IXのIPv4アドレスから取得
-#%IPv4_PREFIX%は該当ASのPeeringDBのIPv4 Prefixesから取得（ない場合はdefine.phpよりデフォルト値を取得）
-#%TARGET_IPv6%は該当ASのPeeringDBにある該当IXのIPv6アドレスから取得
-#%IPv6_PREFIX%は該当ASのPeeringDBのIPv6 Prefixesから取得（ない場合はdefine.phpよりデフォルト値を取得）
-#%IX-LAN-PREFIX%はdefine.phpの接続IXで指定したixPrefixの値を取得、同一IX接続で同じフィルタを利用するなどの場合に利用。
-
-#IPv4_LISTは複数のIPで同一IXに接続している分だけipv4-bgp_config.txtをループする。
-#IPv6_LISTは複数のIPで同一IXに接続している分だけipv6-bgp_config.txtをループする。
-
-
-#AS-PATHアクセスリストやroute-mapの作成などに使う例。
 ip as-path access-list <%AS-NAME%> seq 5 permit ^(<%AS_NUMBER%>_)+
 
 route-map <%AS-NAME%>-EBGP-IN permit 10
