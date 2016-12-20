@@ -5,7 +5,7 @@ route-map <%AS-NAME%>-EBGP-IN permit 10
  set local-preference 110
 
 router bgp
- <%IPv4_LIST%>
+<%IPv4_LIST%>
 address-family ipv6 unicast
-  <%IPv6_LIST%>
+<%IPv6_LIST%>
 exit-address-family

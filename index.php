@@ -55,22 +55,20 @@
 			$netIXLanAry[]	= $ixLanID;
 
 			foreach( $ipv4BGPConfigAry as $line ) {
-				$targetLine			= $line;
-				$targetLine			= str_replace( "<%TARGET_IPv4%>"	, $netIXLan[ 'ipaddr4' ]	, $targetLine );
-				$targetLine			= str_replace( "<%TARGET_ASN%>"		, $targte_asn				, $targetLine );
-				$targetLine			= str_replace( "<%IPv4_PREFIX%>"	, $ipv4Prefix				, $targetLine );
-				$ipv4ConfigAry[]	= $targetLine;
+				$targetLine						= $line;
+				$targetLine						= str_replace( "<%TARGET_IPv4%>"	, $netIXLan[ 'ipaddr4' ]	, $targetLine );
+				$targetLine						= str_replace( "<%TARGET_ASN%>"		, $targte_asn				, $targetLine );
+				$targetLine						= str_replace( "<%IPv4_PREFIX%>"	, $ipv4Prefix				, $targetLine );
+				$ipv4ConfigAry[ $ixLanID ][]	= $targetLine;
 			}
-			$ipv4ConfigAry[]		= "";
 
 			foreach( $ipv6BGPConfigAry as $line ) {
-				$targetLine			= $line;
-				$targetLine			= str_replace( "<%TARGET_IPv6%>"	, $netIXLan[ 'ipaddr6' ]	, $targetLine );
-				$targetLine			= str_replace( "<%TARGET_ASN%>"		, $targte_asn				, $targetLine );
-				$targetLine			= str_replace( "<%IPv6_PREFIX%>"	, $ipv4Prefix				, $targetLine );
-				$ipv6ConfigAry[]	= $targetLine;
+				$targetLine						= $line;
+				$targetLine						= str_replace( "<%TARGET_IPv6%>"	, $netIXLan[ 'ipaddr6' ]	, $targetLine );
+				$targetLine						= str_replace( "<%TARGET_ASN%>"		, $targte_asn				, $targetLine );
+				$targetLine						= str_replace( "<%IPv6_PREFIX%>"	, $ipv4Prefix				, $targetLine );
+				$ipv6ConfigAry[ $ixLanID ][]	= $targetLine;
 			}
-			$ipv6ConfigAry[]		= "";
 		}
 
 		if( empty( $allCSVAry[ $targte_asn ] ) && empty( $netIXLanAry ) )
@@ -79,20 +77,7 @@
 			$successString	= "検索に成功しました";
 
 		$bgpConfigAry	= ( BGP_CONFIG_BASE_PATH !== "" )	? file( BGP_CONFIG_BASE_PATH , FILE_IGNORE_NEW_LINES )	: array();
-
-		if( BGP_CONFIG_IPv4_PATH === "" ) {
-			$bgpConfigAry	= explode( "<brbrbr>" , str_replace( "<%IPv4_LIST%>" , ""												, implode( "<brbrbr>" , $bgpConfigAry ) ) );
-		}
-		else {
-			$bgpConfigAry	= explode( "<brbrbr>" , str_replace( "<%IPv4_LIST%>" , implode( "\n" , array_values( $ipv4ConfigAry ) )	, implode( "<brbrbr>" , $bgpConfigAry ) ) );
-		}
-
-		if( empty( $ipv4ConfigAry ) )
-			$bgpConfigAry	= explode( "<brbrbr>" , str_replace( "<%IPv6_LIST%>" , ""												, implode( "<brbrbr>" , $bgpConfigAry ) ) );
-		else
-			$bgpConfigAry	= explode( "<brbrbr>" , str_replace( "<%IPv6_LIST%>" , implode( "\n" , array_values( $ipv6ConfigAry ) )	, implode( "<brbrbr>" , $bgpConfigAry ) ) );
-
-		$bgpConfigAry	= explode( "<brbrbr>" , str_replace( "<%AS_NUMBER%>" , $targte_asn											, implode( "<brbrbr>" , $bgpConfigAry ) ) );
+		$bgpConfigAry	= explode( "<brbrbr>" , str_replace( "<%AS_NUMBER%>" , $targte_asn , implode( "<brbrbr>" , $bgpConfigAry ) ) );
 	}
 ?>
 <!DCOTYPE html>
@@ -132,6 +117,8 @@
 			<?php if( !empty( $bgpConfigAry ) ) { ?>
 				var bgpConfig = <?php echo json_encode( $bgpConfigAry ); ?>.join( "\n" );
 			<?php } ?>
+			var configIPv4		= <?php echo json_encode( $ipv4ConfigAry ); ?>;
+			var configIPv6		= <?php echo json_encode( $ipv6ConfigAry ); ?>;
 		</script>
 	</head>
 
@@ -242,6 +229,8 @@
 					var prefixIX	= $this.attr( "data-ixlan-prefix" );
 
 					baseConfigText		= bgpConfig;
+					baseConfigText		= baseConfigText.split( "<%IPv4_LIST%>" ).join( configIPv4[ targetIXID ].join( "\n" ) );
+					baseConfigText		= baseConfigText.split( "<%IPv6_LIST%>" ).join( configIPv6[ targetIXID ].join( "\n" ) );
 					baseConfigText		= baseConfigText.split( "<%IX-LAN-PREFIX%>" ).join( prefixIX );
 					$modal.find( ".modal-body textarea" ).val( baseConfigText );
 					$modal.modal( 'show' );
