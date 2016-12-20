@@ -7,11 +7,11 @@
 	define( "IPv6_MAXIMUM_PREFIX_NUMBER"	, 50 );
 
 	// BGPコンフィグにおける設定情報
-	define( "BGP_CONFIG_IPv4_PATH"	, "ipv4-bgp_config.txt" );
-	define( "BGP_CONFIG_IPv6_PATH"	, "ipv6-bgp_config.txt" );
+	define( "BGP_CONFIG_IPv4_PATH"	, "ipv4-bgp_config" );
+	define( "BGP_CONFIG_IPv6_PATH"	, "ipv6-bgp_config" );
 
 	// BGPコンフィグにおけるヘッダーテキスト
-	define( "BGP_CONFIG_BASE_PATH"	, "bgp_config_base.txt" );
+	define( "BGP_CONFIG_BASE_PATH"	, "bgp_config_base" );
 
 	// 接続IXを記載する。ixPrefixはコンフィグで利用する際の名称
 	$targetIXButtonAry	= array(
